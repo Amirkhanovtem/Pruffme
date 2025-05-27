@@ -1,0 +1,712 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Как подключиться к вебинару на платформе PruffMe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #81c784 0%, #4caf50 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo img {
+            height: 45px;
+	
+            width: auto;
+        }
+
+        .language-switcher {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .lang-btn {
+            padding: 0.5rem 1rem;
+            border: 2px solid #4caf50;
+            background: transparent;
+            color: #4caf50;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn.active {
+            background: #4caf50;
+            color: white;
+        }
+
+        .lang-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 2.5rem;
+        }
+
+        .hero-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.4rem;
+            color: #666;
+            margin-bottom: 2rem;
+        }
+
+        .warning {
+            background: linear-gradient(135deg, #ff9a9e, #fecfef);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border-left: 4px solid #ff6b9d;
+        }
+
+        .warning-text {
+            color: #d63384;
+            font-weight: 500;
+        }
+
+        .steps-section {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+        }
+
+        .steps-title {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            color: #2c3e50;
+        }
+
+        .step-accordion {
+            margin-bottom: 1rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .step-button {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+            border: none;
+            padding: 1.2rem 1.5rem;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .step-button:hover {
+            background: linear-gradient(135deg, #388e3c, #1b5e20);
+            transform: translateY(-1px);
+        }
+
+        .step-button.active {
+            background: linear-gradient(135deg, #388e3c, #1b5e20);
+        }
+
+        .step-number {
+            background: rgba(255, 255, 255, 0.2);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+
+        .step-title {
+            flex: 1;
+            text-align: left;
+        }
+
+        .step-arrow {
+            transition: transform 0.3s ease;
+            font-size: 1.2rem;
+        }
+
+        .step-button.active .step-arrow {
+            transform: rotate(180deg);
+        }
+
+        .step-content {
+            background: white;
+            padding: 0;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .step-content.active {
+            max-height: 1000px;
+            padding: 1.8rem;
+        }
+
+        .step-text {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #555;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-highlight {
+            background: linear-gradient(120deg, #4caf5020 0%, #4caf5010 100%);
+            padding: 0.75rem;
+            border-radius: 8px;
+            border-left: 3px solid #4caf50;
+            margin: 0.5rem 0;
+            font-size: 1rem;
+        }
+
+        .step-highlight ul {
+            margin: 0.5rem 0;
+            padding-left: 1.5rem;
+        }
+
+        .step-highlight li {
+            margin-bottom: 0.25rem;
+        }
+
+        .important-note {
+            background: linear-gradient(135deg, #4caf50, #2e7d32);
+            color: white;
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            font-size: 1rem;
+            box-shadow: 0 3px 10px rgba(76, 175, 80, 0.3);
+        }
+
+        .step-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            margin: 0.5rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 2px solid #e8f5e8;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 3rem;
+        }
+
+        .contact-info {
+            background: linear-gradient(135deg, #ffffff, #ffffff);
+            padding: 1.5rem;
+            border-radius: 15px;
+            border-left: 4px solid #4caf50;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .contact-info p {
+            color: #2e7d32;
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .contact-email {
+            color: #1b5e20;
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .hero-section {
+                padding: 2rem 1rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .header-content {
+                padding: 0 1rem;
+            }
+            
+            .step-button {
+                padding: 1rem;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <img src="icon.png" alt="PruffMe Webinar Guide">
+            </div>
+            <div class="language-switcher">
+                <button class="lang-btn active" onclick="switchLanguage('ru')">Русский</button>
+                <button class="lang-btn" onclick="switchLanguage('en')">English</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <!-- Russian Content -->
+        <div id="content-ru">
+            <div class="hero-section">
+                <h1 class="hero-title">Как подключиться к вебинару</h1>
+                <p class="hero-subtitle">на платформе PruffMe</p>
+            </div>
+
+            <div class="warning">
+                <p class="warning-text">Важно: Убедитесь в стабильном интернет-соединении и отключите VPN перед началом вебинара.</p>
+            </div>
+
+            <div class="steps-section">
+                <h2 class="steps-title">Пошаговая инструкция</h2>
+                
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-1-ru')">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Подготовьте оборудование</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-1-ru">
+                        <p class="step-text">Убедитесь, что у вас есть устройство с камерой и микрофоном.</p>
+                        <div class="step-highlight">
+                            <strong>Рекомендуется подключаться с:</strong>
+                            <ul>
+                                <li>Компьютера или ноутбука для лучшего качества</li>
+                                <li>Стабильного интернет-соединения</li>
+                            </ul>
+                        </div>
+                        <img src="1.png" alt="Устройства с камерой и микрофоном" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-2-ru')">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Проверьте интернет-соединение</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-2-ru">
+                        <p class="step-text">Перейдите на сайт: <strong>https://www.speedtest.net/</strong></p>
+                        <div class="important-note">
+                            <strong>Важно!</strong> Скорость загрузки и выгрузки должна быть не менее 5 Мбит/с
+                        </div>
+                        <p class="step-text">Если скорость ниже требуемой - найдите другое интернет-соединение.</p>
+                        <img src="2.png" alt="Скриншот Speedtest.net" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-3-ru')">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Отключите VPN</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-3-ru">
+                        <p class="step-text">Если у вас включен VPN, отключите его перед подключением к вебинару.</p>
+                        <div class="step-highlight">
+                            VPN может замедлить соединение и вызвать проблемы с качеством видео и аудио.
+                        </div>
+                        <img src="3.png" alt="Отключение VPN" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-4-ru')">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Откройте браузер</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-4-ru">
+                        <p class="step-text"><strong>С ПК или ноутбука:</strong> Откройте ссылку из приглашения через один из следующих браузеров:</p>
+                        <div class="step-highlight">
+                            <ul>
+                                <li>Google Chrome (рекомендуется)</li>
+                                <li>Mozilla Firefox</li>
+                                <li>Safari</li>
+                                <li>Microsoft Edge</li>
+                            </ul>
+                        </div>
+                        <p class="step-text"><strong>С мобильных устройств:</strong> Скопируйте и вставьте ссылку в браузер.</p>
+                        <img src="4.png" alt="Поддерживаемые браузеры" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-5-ru')">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Настройте разрешения</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-5-ru">
+                        <p class="step-text">Установите все разрешения для данного веб-сайта:</p>
+                        <div class="step-highlight">
+                            <ul>
+                                <li>Доступ к камере</li>
+                                <li>Доступ к микрофону</li>
+                                <li>Разрешение на показ уведомлений</li>
+                            </ul>
+                        </div>
+                        <p class="step-text">Поставьте галочку, что вы прочитали и принимаете все правила.</p>
+                        <img src="5.png" alt="Настройка разрешений браузера" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-6-ru')">
+                        <div class="step-number">6</div>
+                        <div class="step-title">Войдите в комнату вебинара</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-6-ru">
+                        <p class="step-text">Нажмите кнопку: <strong>"WEBINAR ROOM"</strong></p>
+                        <p class="step-text">Примите приглашение или начните трансляцию, нажав на соответствующие иконки.</p>
+                        <img src="6.png" alt="Кнопка входа в комнату вебинара" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-7-ru')">
+                        <div class="step-number">7</div>
+                        <div class="step-title">Настройте интерфейс</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-7-ru">
+                        <p class="step-text">Вы можете настроить свой вид и изменить расположение окон на странице:</p>
+                        <div class="step-highlight">
+                            <ul>
+                                <li>Перетаскивайте окна в нужное место</li>
+                                <li>Изменяйте размер окон, потянув за правый нижний угол</li>
+                                <li>Используйте эмодзи в чате</li>
+                            </ul>
+                        </div>
+                        <img src="7.png" alt="Интерфейс комнаты вебинара" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-8-ru')">
+                        <div class="step-number">8</div>
+                        <div class="step-title">Подготовьтесь к началу</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-8-ru">
+                        <p class="step-text">Для оптимальной работы:</p>
+                        <div class="step-highlight">
+                            <ul>
+                                <li>Закройте все неиспользуемые веб-страницы</li>
+                                <li>Остановите или приостановите все загрузки</li>
+                                <li>Внимательно слушайте спикера и отвечайте на его вопросы</li>
+                                <li>Задавайте свои вопросы и выполняйте все задания</li>
+                            </ul>
+                        </div>
+                        <div class="important-note">
+                            Готовьтесь к началу трансляции и активному участию в вебинаре!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="contact-info">
+                    <p>По всем вопросам обращайтесь:</p>
+                    <p class="contact-email">elearning.team@airastana.com</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- English Content -->
+        <div id="content-en" class="hidden">
+            <div class="hero-section">
+                <h1 class="hero-title">How to Join Webinar</h1>
+                <p class="hero-subtitle">on PruffMe Platform</p>
+            </div>
+
+            <div class="warning">
+                <p class="warning-text">Important: Ensure stable internet connection and turn off VPN before joining the webinar.</p>
+            </div>
+
+            <div class="steps-section">
+                <h2 class="steps-title">Step-by-Step Instructions</h2>
+                
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-1-en')">
+                        <div class="step-number">1</div>
+                        <div class="step-title">Prepare the Equipment</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-1-en">
+                        <p class="step-text">You need to have a device with camera and microphone.</p>
+                        <div class="step-highlight">
+                            <strong>It is better to join from:</strong>
+                            <ul>
+                                <li>PC or laptop for better quality</li>
+                                <li>Stable internet connection</li>
+                            </ul>
+                        </div>
+                        <img src="1.png" alt="Devices with camera and microphone" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-2-en')">
+                        <div class="step-number">2</div>
+                        <div class="step-title">Check Internet Connection</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-2-en">
+                        <p class="step-text">Visit: <strong>https://www.speedtest.net/</strong></p>
+                        <div class="important-note">
+                            <strong>Important!</strong> Download and upload speed must be at least 5 MBPS
+                        </div>
+                        <p class="step-text">If it's lower - find other internet connection.</p>
+                        <img src="2.png" alt="Speedtest.net screenshot" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-3-en')">
+                        <div class="step-number">3</div>
+                        <div class="step-title">Switch Off the VPN</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-3-en">
+                        <p class="step-text">If you have VPN enabled, turn it off before joining the webinar.</p>
+                        <div class="step-highlight">
+                            VPN can slow down connection and cause problems with video and audio quality.
+                        </div>
+                        <img src="3.png" alt="VPN disconnection" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-4-en')">
+                        <div class="step-number">4</div>
+                        <div class="step-title">Open Browser</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-4-en">
+                        <p class="step-text"><strong>From PC or laptop:</strong> Open the link from invitation letter via one of these internet browsers:</p>
+                        <div class="step-highlight">
+                            <ul>
+                                <li>Google Chrome (recommended)</li>
+                                <li>Mozilla Firefox</li>
+                                <li>Safari</li>
+                                <li>Microsoft Edge</li>
+                            </ul>
+                        </div>
+                        <p class="step-text"><strong>From mobile devices:</strong> Copy and paste the link into browser.</p>
+                        <img src="4.png" alt="Supported browsers" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-5-en')">
+                        <div class="step-number">5</div>
+                        <div class="step-title">Set Up Permissions</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-5-en">
+                        <p class="step-text">Set all permissions for this website:</p>
+                        <div class="step-highlight">
+                            <ul>
+                                <li>Camera access</li>
+                                <li>Microphone access</li>
+                                <li>Notifications permission</li>
+                            </ul>
+                        </div>
+                        <p class="step-text">Tick that you have read and accept all the rules.</p>
+                        <img src="5.png" alt="Browser permissions setup" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-6-en')">
+                        <div class="step-number">6</div>
+                        <div class="step-title">To Join Webinar</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-6-en">
+                        <p class="step-text">Click the button: <strong>"WEBINAR ROOM"</strong></p>
+                        <p class="step-text">Accept invitation or start broadcasting by clicking one of these icons.</p>
+                        <img src="6.png" alt="Webinar room entry button" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-7-en')">
+                        <div class="step-number">7</div>
+                        <div class="step-title">Adjust Your View</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-7-en">
+                        <p class="step-text">You can adjust your own view and change the position of these windows on the page:</p>
+                        <div class="step-highlight">
+                            <ul>
+                                <li>Drag each window to the desired location</li>
+                                <li>Change their size by dragging the lower right corner</li>
+                                <li>Use emoji in chat box</li>
+                            </ul>
+                        </div>
+                        <img src="7.png" alt="Webinar room interface" class="step-image">
+                    </div>
+                </div>
+
+                <div class="step-accordion">
+                    <button class="step-button" onclick="toggleStep(this, 'step-8-en')">
+                        <div class="step-number">8</div>
+                        <div class="step-title">Broadcasting to Begin</div>
+                        <div class="step-arrow">▼</div>
+                    </button>
+                    <div class="step-content" id="step-8-en">
+                        <p class="step-text">For optimal performance:</p>
+                        <div class="step-highlight">
+                            <ul>
+                                <li>Close all unused web pages</li>
+                                <li>Stop or pause all downloads</li>
+                                <li>Listen for the speaker carefully and answer his or her questions</li>
+                                <li>Ask your own questions and do all tasks</li>
+                            </ul>
+                        </div>
+                        <div class="important-note">
+                            Get ready for the broadcast to begin and active participation in the webinar!
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <div class="contact-info">
+                    <p>For all questions please contact:</p>
+                    <p class="contact-email">elearning.team@airastana.com</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentLanguage = 'ru';
+
+        function switchLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+
+            // Hide all content
+            document.getElementById('content-ru').classList.add('hidden');
+            document.getElementById('content-en').classList.add('hidden');
+            
+            // Show selected language content
+            document.getElementById('content-' + lang).classList.remove('hidden');
+            
+            // Close all open steps when switching language
+            document.querySelectorAll('.step-content.active').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.step-button.active').forEach(button => {
+                button.classList.remove('active');
+            });
+        }
+
+        function toggleStep(button, contentId) {
+            const content = document.getElementById(contentId);
+            const isActive = content.classList.contains('active');
+            
+            // Close all other steps
+            document.querySelectorAll('.step-content').forEach(c => {
+                if (c !== content) {
+                    c.classList.remove('active');
+                }
+            });
+            document.querySelectorAll('.step-button').forEach(b => {
+                if (b !== button) {
+                    b.classList.remove('active');
+                }
+            });
+            
+            // Toggle current step
+            if (isActive) {
+                content.classList.remove('active');
+                button.classList.remove('active');
+            } else {
+                content.classList.add('active');
+                button.classList.add('active');
+            }
+        }
+    </script>
+</body>
+</html>
